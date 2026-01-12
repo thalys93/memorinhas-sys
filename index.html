@@ -1,73 +1,27 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Memorinhas | Eternizando Memórias</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="globals.css" />
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              border: "hsl(214.3 31.8% 91.4%)",
-              input: "hsl(214.3 31.8% 91.4%)",
-              ring: "hsl(215 20.2% 65.1%)",
-              background: "hsl(0 0% 100%)",
-              foreground: "hsl(222.2 84% 4.9%)",
-              primary: {
-                DEFAULT: "#b99778",
-                foreground: "hsl(210 40% 98%)",
-              },
-              secondary: {
-                DEFAULT: "hsl(210 40% 96.1%)",
-                foreground: "hsl(222.2 47.4% 11.2%)",
-              },
-              muted: {
-                DEFAULT: "hsl(210 40% 96.1%)",
-                foreground: "hsl(215.4 16.3% 46.9%)",
-              },
-              accent: {
-                DEFAULT: "hsl(210 40% 96.1%)",
-                foreground: "hsl(222.2 47.4% 11.2%)",
-              },
-              card: {
-                DEFAULT: "hsl(0 0% 100%)",
-                foreground: "hsl(222.2 84% 4.9%)",
-              },
-            },
-            borderRadius: {
-              lg: "var(--radius)",
-              md: "calc(var(--radius) - 2px)",
-              sm: "calc(var(--radius) - 4px)",
-            },
-            fontFamily: {
-              sans: ['Outfit', 'sans-serif'],
-              serif: ['Playfair Display', 'serif'],
-            },
-          },
-        },
-      }
-    </script>
-  <script type="importmap">
-{
-  "imports": {
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "clsx": "https://esm.sh/clsx@^2.1.1",
-    "tailwind-merge": "https://esm.sh/tailwind-merge@^2.3.0"
-  }
-}
-</script>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memorinhas | Eternizando Memórias</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="globals.css" />
+  <link rel="preload"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">    
 </head>
-  <body class="bg-background text-foreground antialiased min-h-screen">
-    <div id="root"></div>
-  </body>
+
+<body class="bg-background text-foreground antialiased min-h-screen">
+  <main id="root"></main>
+  <script type="module" src="/src/index.tsx"></script>
+</body>
+
 </html>

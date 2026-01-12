@@ -40,8 +40,9 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ['Outfit', 'sans-serif'],
-        serif: ['Playfair Display', 'serif'],
+        roboto: ['Roboto', 'sans-serif'],
+        outfit: ['Outfit', 'sans-serif'],
+        playfair: ['Playfair Display', 'serif'],
       },
     },
   },
