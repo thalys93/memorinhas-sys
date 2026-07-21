@@ -1,20 +1,67 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Memorinhas
 
-# Run and deploy your AI Studio app
+Sistema de e-commerce para personalização e venda de produtos fotográficos (ímãs, porta-retratos e similares). Inclui vitrine pública, painel do lojista e painel administrativo.
 
-This contains everything you need to run your app locally.
+## Estrutura
 
-View your app in AI Studio: https://ai.studio/apps/drive/1pE4DKmmu1n1G_p4nPYPTDFjSYrkEGVS5
+```
+memorinhas-sys/
+├── frontend/   # React + Vite (vitrine, lojista, admin)
+├── backend/    # NestJS + PostgreSQL (API)
+└── design_system/
+```
 
-## Run Locally
+| Pasta | Stack | Porta padrão |
+| ----- | ----- | ------------ |
+| `frontend/` | React 19, Vite, Tailwind, TanStack Query, Zustand | `3000` |
+| `backend/` | NestJS 11, TypeORM, PostgreSQL 16 | `3001` |
 
-**Prerequisites:**  Node.js
+## Pré-requisitos
 
+- Node.js 20+ (22+ recomendado)
+- npm
+- Docker (para o PostgreSQL)
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Como subir o projeto
+
+### 1. Backend
+
+```bash
+cd backend
+cp .env.example .env
+docker compose up -d vogue_backend_db
+npm install
+npm run start:dev
+```
+
+Ou API + banco no Docker: `docker compose up -d --build`. Tunnel Cloudflare: ver [backend/README.md](backend/README.md).
+
+- API: http://localhost:3001/api/v0/system-check
+- Swagger: http://localhost:3001/api/v0
+
+Detalhes em [backend/README.md](backend/README.md).
+
+### 2. Frontend
+
+```bash
+cd frontend
+cp .env.example .env
+npm install
+npm run dev
+```
+
+- App: http://localhost:3000
+
+Detalhes em [frontend/README.md](frontend/README.md).
+
+## Áreas da aplicação
+
+| Área | URL | Descrição |
+| ---- | --- | --------- |
+| Vitrine | `/` | Landing, catálogo e customizador |
+| Lojista | `/lojista` | Pedidos, produtos, frete e loja |
+| Admin | `/admin` | Lojas, usuários, papéis e tipos de produto |
+
+## Licença
+
+O backend está sob MIT — veja [backend/LICENSE](backend/LICENSE).

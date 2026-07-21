@@ -1,0 +1,47 @@
+services:
+  vogue_backend_db:
+    image: postgres:16
+    container_name: memorinhas_core_db
+    restart: always
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    container_name: memorinhas_api
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DB_HOST: vogue_backend_db
+      NODE_ENV: production
+    ports:
+      - "${PORT:-3001}:${PORT:-3001}"
+    depends_on:
+      vogue_backend_db:
+        condition: service_healthy
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: memorinhas_tunnel
+    restart: unless-stopped
+    profiles: ["tunnel"]
+    command: tunnel run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
