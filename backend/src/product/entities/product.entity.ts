@@ -35,6 +35,12 @@ export class Product {
     @Column({ type: 'boolean', default: false })
     freight: boolean;
 
+    @Column({ type: 'text', nullable: true })
+    description: string | null;
+
+    @Column({ type: 'json', default: [] })
+    attributes: { label: string; value: string }[];
+
     @ManyToOne(() => Store, (store) => store.products, {
         onDelete: 'CASCADE',
         nullable: false,

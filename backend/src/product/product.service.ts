@@ -83,6 +83,22 @@ export class ProductService {
         return { found: product };
     }
 
+    async findOnePublic(brandUrl: string, id: string) {
+        const product = await this.productRepository
+            .createQueryBuilder('product')
+            .leftJoinAndSelect('product.store', 'store')
+            .leftJoinAndSelect('product.productType', 'productType')
+            .where('product.id = :id', { id })
+            .andWhere('store.brand_url = :brandUrl', { brandUrl })
+            .getOne();
+
+        if (!product) {
+            throw new NotFoundException('api.product.not.found');
+        }
+
+        return { found: product };
+    }
+
     async create(createProductDto: CreateProductDto, authUser: AuthUser) {
         const store = await this.storeService.assertStoreAccess(authUser);
 

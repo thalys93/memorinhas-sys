@@ -2,9 +2,11 @@ import { CircleDollarSign, Layers } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select } from '@/components/ui/select'
+import { RichTextEditor } from '@/components/rich-text-editor'
 import { kitNameFromQuantity } from '@/lib/product-utils'
 import { useActiveProductTypes } from '@/hooks/queries'
 import type { ProductTypeEntity } from '@/types/api'
+import { ProductAttributesField } from './ProductAttributesField'
 import { ProductImagesField } from './ProductImagesField'
 import type { ProductFormState } from './product-form-utils'
 
@@ -154,6 +156,21 @@ export function ProductForm({ value, onChange, disabled }: ProductFormProps) {
           Ativo: o frete não é cobrado do cliente. Inativo: será cobrado produto + frete.
         </p>
       </div>
+
+      <div className="space-y-2">
+        <Label className="text-sm text-muted-foreground">Descrição</Label>
+        <RichTextEditor
+          value={value.description}
+          disabled={disabled}
+          onChange={(description) => patch({ description })}
+        />
+      </div>
+
+      <ProductAttributesField
+        value={value.attributes}
+        disabled={disabled}
+        onChange={(attributes) => patch({ attributes })}
+      />
 
       <ProductImagesField
         images={value.product_imgs}

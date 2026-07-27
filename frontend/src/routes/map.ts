@@ -1,6 +1,7 @@
 import LandingPage from '@/subdomains/app/pages/landing/LandingPage';
 import CustomizerPage from '@/subdomains/app/pages/Customizer/CustomizerPage';
 import { ProductsCatalogPage } from '@/subdomains/app/pages/products/ProductsCatalogPage';
+import { ProductDetailPage } from '@/subdomains/app/pages/products/ProductDetailPage';
 import TermsOfUsePage from '@/subdomains/app/pages/legal/TermsOfUsePage';
 import PrivacyPolicyPage from '@/subdomains/app/pages/legal/PrivacyPolicyPage';
 import PublicLayout from '@/layouts/public-layout';
@@ -30,6 +31,7 @@ export const PublicRoutes: RoutesGroup = {
   public: [
     { path: '', element: LandingPage },
     { path: 'produtos', element: ProductsCatalogPage },
+    { path: 'produtos/:id', element: ProductDetailPage },
     { path: 'customizar', element: CustomizerPage },
     { path: 'termos', element: TermsOfUsePage },
     { path: 'privacidade', element: PrivacyPolicyPage },

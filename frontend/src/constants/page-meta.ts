@@ -1,11 +1,12 @@
 export type PageMeta = {
-  segments: string[];
+  title?: string;
+  segments?: string[];
   description?: string;
   robots?: string;
 };
 
 export const DEFAULT_DESCRIPTION =
-  'Ímãs de fotos artesanais para transformar momentos em lembranças diárias.';
+  'Transforme suas fotos em ímãs artesanais com acabamento premium. Produzidos em Canoas/RS, com entrega na região. Peça pelo WhatsApp.';
 
 const PRIVATE_ROBOTS = 'noindex, nofollow';
 
@@ -13,22 +14,47 @@ const PAGE_META: { match: string | RegExp; meta: PageMeta }[] = [
   {
     match: /^\/$/,
     meta: {
-      segments: ['Eternizando Memórias'],
+      title: 'Ímãs de Fotos Artesanais em Canoas | Memorinhas',
       description: DEFAULT_DESCRIPTION,
+    },
+  },
+  {
+    match: /^\/produtos\/[^/]+$/,
+    meta: {
+      title: 'Detalhe do Produto | Memorinhas',
+      description:
+        'Veja detalhes do ímã personalizado Memorinhas: descrição, especificações e adicione ao carrinho.',
     },
   },
   {
     match: '/produtos',
     meta: {
-      segments: ['Produtos'],
-      description: 'Catálogo de ímãs e produtos Memorinhas.',
+      title: 'Catálogo de Ímãs Personalizados | Memorinhas',
+      description:
+        'Veja os ímãs de fotos Memorinhas. Escolha o tamanho, personalize com suas fotos e peça com entrega em Canoas e região metropolitana.',
     },
   },
   {
     match: '/customizar',
     meta: {
-      segments: ['Customizar'],
-      description: 'Personalize seus ímãs de fotos Memorinhas.',
+      title: 'Personalizar Ímãs | Memorinhas',
+      description: 'Envie suas fotos e monte o mural de ímãs Memorinhas.',
+      robots: PRIVATE_ROBOTS,
+    },
+  },
+  {
+    match: '/termos',
+    meta: {
+      title: 'Termos de Uso | Memorinhas',
+      description: 'Termos de uso da loja Memorinhas: pedidos, personalização e entrega.',
+    },
+  },
+  {
+    match: '/privacidade',
+    meta: {
+      title: 'Política de Privacidade | Memorinhas',
+      description:
+        'Como a Memorinhas trata seus dados pessoais, fotos e informações de pedido.',
     },
   },
   {
@@ -177,3 +203,7 @@ export function resolvePageMeta(pathname: string): PageMeta {
   return FALLBACK_META;
 }
 
+export function buildPageTitle(meta: PageMeta, appName: string): string {
+  if (meta.title) return meta.title;
+  return [appName, ...(meta.segments ?? [])].join(' | ');
+}

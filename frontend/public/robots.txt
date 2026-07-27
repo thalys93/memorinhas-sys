@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /lojista
+Disallow: /admin
+Disallow: /customizar
+
+Sitemap: https://memorinhas-b26.web.app/sitemap.xml

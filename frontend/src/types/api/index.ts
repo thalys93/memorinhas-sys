@@ -39,6 +39,11 @@ export interface StoreSettings {
   profile?: StoreProfileSettings;
 }
 
+export interface ProductAttribute {
+  label: string;
+  value: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -47,6 +52,8 @@ export interface Product {
   customizableSlots?: number | null;
   product_imgs: string[];
   freight: boolean;
+  description?: string | null;
+  attributes?: ProductAttribute[];
   createdAt?: string;
   updatedAt?: string;
 }
@@ -118,6 +125,8 @@ export interface CreateProductPayload {
   customizableSlots?: number;
   product_imgs?: string[];
   freight?: boolean;
+  description?: string | null;
+  attributes?: ProductAttribute[];
 }
 
 export interface UpdateProductPayload {
@@ -127,6 +136,8 @@ export interface UpdateProductPayload {
   customizableSlots?: number;
   product_imgs?: string[];
   freight?: boolean;
+  description?: string | null;
+  attributes?: ProductAttribute[];
 }
 
 export interface CreateProductTypePayload {

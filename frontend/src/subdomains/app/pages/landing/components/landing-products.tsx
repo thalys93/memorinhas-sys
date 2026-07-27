@@ -32,12 +32,15 @@ export const LandingProducts = ({ store }: ProductsProps) => {
     <section id="produtos" className="section-pad bg-surface-alt">
       <div className="viewport-content">
         <div className="text-center mb-16">
-          <h2 className="text-label text-primary uppercase tracking-widest mb-4">
+          <p className="text-label text-primary uppercase tracking-widest mb-4">
             Nossas opções
-          </h2>
-          <h3 className="text-section-title text-foreground">
+          </p>
+          <h2 className="text-section-title text-foreground mb-4">
             Escolha o tamanho da sua saudade
-          </h3>
+          </h2>
+          <p className="text-body text-muted-foreground max-w-xl mx-auto">
+            Kits e ímãs avulsos para personalizar com as fotos que importam.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -50,6 +53,7 @@ export const LandingProducts = ({ store }: ProductsProps) => {
               imageUrl={product.product_imgs?.[0]}
               slots={product.customizableSlots}
               freight={product.freight}
+              to={`/produtos/${product.id}`}
               onAdd={() => handleAdd(product)}
             />
           ))}
@@ -60,12 +64,12 @@ export const LandingProducts = ({ store }: ProductsProps) => {
             to="/produtos"
             className="inline-flex items-center justify-center h-9 px-4 text-[14px] rounded-full border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-all"
           >
-            Ver todos os produtos
+            Ver catálogo completo
           </Link>
         </div>
 
         <p className="text-center mt-12 text-muted-foreground text-body">
-          * Atendendo com carinho em:{' '}
+          Entregamos com carinho em:{' '}
           {regions || 'Canoas e Região Metropolitana'}.
         </p>
       </div>

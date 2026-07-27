@@ -1,6 +1,8 @@
 {
   "name": "Memorinhas",
   "short_name": "Memorinhas",
+  "description": "Ímãs de fotos artesanais feitos em Canoas/RS",
+  "start_url": "/",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -15,5 +17,6 @@
   ],
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
-  "display": "standalone"
+  "display": "standalone",
+  "lang": "pt-BR"
 }

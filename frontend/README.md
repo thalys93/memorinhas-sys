@@ -48,6 +48,7 @@ Copie `.env.example` para `.env`:
 | `VITE_API_VERSION` | Versão da API | `v0` |
 | `VITE_STORE_BRAND_URL` | Identificador da loja | `memorinhas` |
 | `VITE_APP_NAME` | Nome exibido no app | `Memorinhas` |
+| `VITE_PUBLIC_SITE_URL` | URL canônica do site (SEO) | `https://memorinhas-b26.web.app` |
 
 ## Estrutura
 

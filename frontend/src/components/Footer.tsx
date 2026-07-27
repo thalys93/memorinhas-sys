@@ -39,6 +39,9 @@ export const Footer = () => {
               <Link to="/#sobre" className="hover:text-primary transition-colors duration-300">
                 Sobre
               </Link>
+              <Link to="/produtos" className="hover:text-primary transition-colors duration-300">
+                Catálogo
+              </Link>
               <Link to="/termos" className="hover:text-primary transition-colors duration-300">
                 Termos de Uso
               </Link>

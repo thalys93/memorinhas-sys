@@ -33,8 +33,8 @@ export const LandingHero: React.FC<LandingHeroProps> = ({ store }) => {
             Ímãs artesanais das suas fotos favoritas
           </h1>
           <p className="stagger-fade-in text-body text-muted-foreground mb-10 max-w-md">
-            Acabamento premium e entrega rápida. O presente certo para decorar o lar ou surpreender
-            quem você ama.
+            Impressão fotográfica premium, feito à mão em Canoas. Para presentear
+            alguém especial ou encher a geladeira de memória boa.
           </p>
           <div className="stagger-fade-in flex flex-col sm:flex-row gap-3">
             <Button
@@ -42,7 +42,7 @@ export const LandingHero: React.FC<LandingHeroProps> = ({ store }) => {
               size="lg"
               className="gap-2"
             >
-              Ver produtos
+              Escolher meus ímãs
               <ChevronRight size={18} />
             </Button>
             <Button
@@ -55,13 +55,13 @@ export const LandingHero: React.FC<LandingHeroProps> = ({ store }) => {
               className="gap-2"
             >
               <MessageCircle size={18} className="text-[#25D366]" />
-              WhatsApp
+              Pedir no WhatsApp
             </Button>
           </div>
           <div className="stagger-fade-in mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-label text-muted-foreground font-normal">
             <span className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-              Entrega em Canoas
+              Entrega em Canoas e região
             </span>
             <span className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-primary" />
@@ -75,7 +75,7 @@ export const LandingHero: React.FC<LandingHeroProps> = ({ store }) => {
             {showImage ? (
               <img
                 src={heroImageUrl}
-                alt="Ímãs de fotos artesanais Memorinhas"
+                alt="Ímãs de fotos artesanais Memorinhas feitos em Canoas"
                 className="w-full h-full object-cover"
                 onError={() => setImageBroken(true)}
               />

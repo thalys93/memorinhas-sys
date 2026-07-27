@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, Save } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -18,6 +18,7 @@ import {
   emptyProductFormState,
   productToFormState,
   revokePreviews,
+  sanitizeAttributes,
   type ProductFormState,
 } from './components/product-form-utils'
 
@@ -36,6 +37,7 @@ export const ProductFormPage = () => {
   const [form, setForm] = useState<ProductFormState>(emptyProductFormState)
   const [saving, setSaving] = useState(false)
   const [ready, setReady] = useState(isNew)
+  const hydratedIdRef = useRef<string | null>(null)
 
   useEffect(() => {
     if (store?.id) setActiveStore(store.id)
@@ -43,6 +45,7 @@ export const ProductFormPage = () => {
 
   useEffect(() => {
     if (isNew) {
+      hydratedIdRef.current = null
       setForm(emptyProductFormState())
       setReady(true)
       return
@@ -53,6 +56,8 @@ export const ProductFormPage = () => {
       setReady(true)
       return
     }
+    if (hydratedIdRef.current === id) return
+    hydratedIdRef.current = id
     setForm(productToFormState(product))
     setReady(true)
   }, [id, isNew, productsData])
@@ -97,6 +102,8 @@ export const ProductFormPage = () => {
         customizableSlots: form.customizableSlots || undefined,
         product_imgs,
         freight: form.freight,
+        description: form.description.trim() || null,
+        attributes: sanitizeAttributes(form.attributes),
       }
 
       revokePreviews(form.pendingPreviews)
@@ -106,10 +113,10 @@ export const ProductFormPage = () => {
         toast('Produto criado')
         navigate(`/lojista/produtos/${created.id}`, { replace: true })
       } else if (id) {
-        await updateProduct.mutateAsync({ id, payload })
+        const updated = await updateProduct.mutateAsync({ id, payload })
+        hydratedIdRef.current = id
         setForm({
-          ...form,
-          ...payload,
+          ...productToFormState(updated),
           pendingFiles: [],
           pendingPreviews: [],
         })

@@ -32,6 +32,18 @@ import { PaginationHelper } from 'src/helpers/utils';
 export class ProductControllerPublic {
     constructor(private readonly productService: ProductService) {}
 
+    @Get(':brand_url/products/:id')
+    @HttpCode(200)
+    @ApiOperation({ summary: 'Buscar produto público por ID' })
+    @ApiParam({ name: 'brand_url', example: 'memorinhas' })
+    @ApiParam({ name: 'id', type: String })
+    findOnePublic(
+        @Param('brand_url') brandUrl: string,
+        @Param('id') id: string,
+    ) {
+        return this.productService.findOnePublic(brandUrl, id);
+    }
+
     @Get(':brand_url/products')
     @HttpCode(200)
     @ApiOperation({ summary: 'Listar produtos públicos da loja' })

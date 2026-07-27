@@ -28,6 +28,8 @@ export const queryKeys = {
   publicStore: (brand: string) => ['store', 'public', brand] as const,
   publicProducts: (brand: string, filters: PublicProductFilters) =>
     ['products', 'public', brand, filters] as const,
+  publicProduct: (brand: string, id: string) =>
+    ['products', 'public', brand, id] as const,
   store: ['store', 'canonical'] as const,
   products: ['products'] as const,
   productTypes: (page?: number) => ['product-types', page] as const,
@@ -75,6 +77,15 @@ export function usePublicProducts(
   return useQuery({
     queryKey: queryKeys.publicProducts(brandUrl, filters),
     queryFn: () => productService.listPublic(filters, brandUrl),
+  });
+}
+
+export function usePublicProduct(id: string, brandUrl = env.storeBrandUrl) {
+  return useQuery({
+    queryKey: queryKeys.publicProduct(brandUrl, id),
+    queryFn: () => productService.getPublicById(id, brandUrl),
+    enabled: Boolean(id),
+    retry: false,
   });
 }
 

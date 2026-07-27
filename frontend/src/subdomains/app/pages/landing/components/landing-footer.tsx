@@ -19,10 +19,10 @@ function LandingFooter({ store }: LandingFooterProps) {
   return (
     <div className="bg-surface-alt rounded-lg p-10 md:p-20 text-center mb-20 border border-border/60">
       <h2 className="text-section-title text-foreground mb-6 max-w-2xl mx-auto">
-        Suas melhores lembranças merecem um lugar especial
+        Pronto para ver suas fotos na geladeira todos os dias?
       </h2>
       <p className="text-body text-muted-foreground mb-12">
-        Pronta para eternizar seus momentos mais queridos?
+        Escolha o kit, envie as fotos e a gente cuida do resto.
       </p>
 
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -44,7 +44,7 @@ function LandingFooter({ store }: LandingFooterProps) {
             onClick={() => window.open(instagramProfileUrl(instagram), '_blank')}
             className="w-full sm:w-auto gap-2"
           >
-            Ver mais no Instagram
+            Ver no Instagram
             <Instagram size={18} />
           </Button>
         ) : null}

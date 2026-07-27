@@ -21,12 +21,12 @@ export const LandingInstagramSection: React.FC<LandingInstagramSectionProps> = (
   return (
     <section className="section-pad bg-background border-y border-border">
       <div className="viewport-content text-center">
-        <h2 className="text-label text-primary uppercase tracking-widest mb-4">
+        <p className="text-label text-primary uppercase tracking-widest mb-4">
           No nosso dia a dia
+        </p>
+        <h2 className="text-section-title text-foreground mb-12">
+          Pedidos reais e bastidores da produção
         </h2>
-        <h3 className="text-section-title text-foreground mb-12">
-          Siga a nossa jornada afetiva
-        </h3>
 
         <div className="max-w-md mx-auto rounded-lg overflow-hidden border border-border bg-card">
           <div className="p-5 flex items-center gap-3 border-b border-border bg-card">
@@ -55,7 +55,7 @@ export const LandingInstagramSection: React.FC<LandingInstagramSectionProps> = (
         </div>
 
         <p className="mt-10 text-body text-muted-foreground">
-          &quot;Cada detalhe é pensado para levar mais cor e saudade boa para o seu lar.&quot;
+          &quot;Cada detalhe é pensado para levar cor e saudade boa para o seu lar.&quot;
         </p>
       </div>
     </section>

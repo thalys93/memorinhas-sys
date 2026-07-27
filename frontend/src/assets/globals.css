@@ -313,3 +313,41 @@
 ::-webkit-scrollbar-thumb:hover {
   background: color-mix(in srgb, var(--primary) 45%, transparent);
 }
+
+.prose-product p {
+  margin-bottom: 0.75em;
+}
+
+.prose-product p:last-child {
+  margin-bottom: 0;
+}
+
+.prose-product ul,
+.prose-product ol {
+  margin: 0.75em 0;
+  padding-left: 1.25em;
+}
+
+.prose-product ul {
+  list-style: disc;
+}
+
+.prose-product ol {
+  list-style: decimal;
+}
+
+.prose-product a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose-product strong {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.prose-product em {
+  font-style: italic;
+}
+

@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
     IsArray,
     IsBoolean,
@@ -8,7 +9,20 @@ import {
     IsString,
     IsUUID,
     Min,
+    ValidateNested,
 } from 'class-validator';
+
+export class ProductAttributeDto {
+    @ApiProperty({ example: 'Material' })
+    @IsString()
+    @IsNotEmpty()
+    label: string;
+
+    @ApiProperty({ example: 'Acrílico' })
+    @IsString()
+    @IsNotEmpty()
+    value: string;
+}
 
 export class CreateProductDto {
     @ApiProperty({ example: 'Kit 5 Ímãs' })
@@ -43,4 +57,18 @@ export class CreateProductDto {
     @IsOptional()
     @IsBoolean()
     freight?: boolean;
+
+    @ApiPropertyOptional({
+        example: '<p>Ímãs personalizados com suas fotos.</p>',
+    })
+    @IsOptional()
+    @IsString()
+    description?: string | null;
+
+    @ApiPropertyOptional({ type: [ProductAttributeDto] })
+    @IsOptional()
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => ProductAttributeDto)
+    attributes?: ProductAttributeDto[];
 }

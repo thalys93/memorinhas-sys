@@ -1,5 +1,6 @@
 import { Camera } from 'lucide-react';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { productTypeLabel } from '@/lib/product-utils';
 
@@ -10,6 +11,7 @@ interface ProductCardProps {
   imageUrl?: string;
   slots?: number | null;
   freight?: boolean;
+  to?: string;
   onAdd?: () => void;
 }
 
@@ -20,30 +22,46 @@ function ProductCard({
   imageUrl,
   slots,
   freight,
+  to,
   onAdd,
 }: ProductCardProps) {
   const [imageBroken, setImageBroken] = useState(false);
   const showImage = !!imageUrl && !imageBroken;
 
+  const media = (
+    <div className="w-full aspect-square rounded-lg overflow-hidden mb-6 bg-muted flex items-center justify-center">
+      {showImage ? (
+        <img
+          src={imageUrl}
+          alt={name}
+          className="w-full h-full object-cover transition-transform duration-300 ease-[cubic-bezier(0,0,0.5,1)] group-hover:scale-105"
+          onError={() => setImageBroken(true)}
+        />
+      ) : (
+        <Camera
+          size={40}
+          strokeWidth={1.5}
+          className="text-primary transition-transform duration-300 group-hover:scale-110"
+        />
+      )}
+    </div>
+  );
+
+  const title = <h4 className="text-card-title text-foreground mb-2">{name}</h4>;
+
   return (
     <div className="group bg-card border border-border/60 p-8 rounded-lg tile-hover flex flex-col items-center text-center">
-      <div className="w-full aspect-square rounded-lg overflow-hidden mb-6 bg-muted flex items-center justify-center">
-        {showImage ? (
-          <img
-            src={imageUrl}
-            alt={name}
-            className="w-full h-full object-cover transition-transform duration-300 ease-[cubic-bezier(0,0,0.5,1)] group-hover:scale-105"
-            onError={() => setImageBroken(true)}
-          />
-        ) : (
-          <Camera
-            size={40}
-            strokeWidth={1.5}
-            className="text-primary transition-transform duration-300 group-hover:scale-110"
-          />
-        )}
-      </div>
-      <h4 className="text-card-title text-foreground mb-2">{name}</h4>
+      {to ? (
+        <Link to={to} className="w-full block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-lg">
+          {media}
+          {title}
+        </Link>
+      ) : (
+        <>
+          {media}
+          {title}
+        </>
+      )}
       <p className="text-muted-foreground text-label font-normal mb-2 uppercase tracking-wider">
         {productTypeLabel(typeName)}
       </p>

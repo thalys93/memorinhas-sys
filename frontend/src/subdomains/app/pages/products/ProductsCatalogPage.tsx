@@ -77,9 +77,11 @@ export function ProductsCatalogPage() {
     <div className="pt-16 min-h-screen bg-surface-alt pb-20">
       <div className="viewport-content py-10 md:py-14 space-y-10">
         <div className="text-center">
-          <h1 className="text-section-title text-foreground mb-2">Produtos</h1>
-          <p className="text-body text-muted-foreground">
-            Filtre e adicione ao carrinho o que quiser pedir.
+          <h1 className="text-section-title text-foreground mb-2">
+            Ímãs e kits personalizados
+          </h1>
+          <p className="text-body text-muted-foreground max-w-lg mx-auto">
+            Escolha o produto, adicione ao carrinho e personalize com suas fotos.
           </p>
         </div>
 
@@ -183,6 +185,7 @@ export function ProductsCatalogPage() {
                 imageUrl={product.product_imgs?.[0]}
                 slots={product.customizableSlots}
                 freight={product.freight}
+                to={`/produtos/${product.id}`}
                 onAdd={() => handleAdd(product)}
               />
             ))}

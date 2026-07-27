@@ -23,6 +23,11 @@ export const productService = {
       })
       .then((r) => r.data),
 
+  getPublicById: (id: string, brandUrl = env.storeBrandUrl) =>
+    api
+      .get<{ found: Product }>(`/store/${brandUrl}/products/${id}`)
+      .then((r) => r.data.found),
+
   getById: (id: string) =>
     api
       .get<{ found: Product }>(`/auth/products/${id}`)

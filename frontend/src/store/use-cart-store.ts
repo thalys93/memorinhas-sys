@@ -26,7 +26,9 @@ type CartState = {
   openCart: () => void;
   closeCart: () => void;
   toggleCart: () => void;
-  addItem: (item: Omit<CartItem, 'id' | 'quantity'> & { quantity?: number }) => void;
+  addItem: (
+    item: Omit<CartItem, 'id' | 'quantity'> & { quantity?: number },
+  ) => string;
   removeItem: (id: string) => void;
   setQuantity: (id: string, quantity: number) => void;
   updateCustomization: (id: string, customization: CartCustomization) => void;
@@ -63,8 +65,8 @@ export const useCartStore = create<CartState>()(
               quantity: item.quantity ?? 1,
             },
           ],
-          isOpen: true,
         }));
+        return id;
       },
       removeItem: (id) =>
         set((s) => ({ items: s.items.filter((i) => i.id !== id) })),
