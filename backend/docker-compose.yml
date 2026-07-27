@@ -1,19 +1,25 @@
+name: memorinhas
+
 services:
-  vogue_backend_db:
+  memorinhas_db:
     image: postgres:16
-    container_name: memorinhas_core_db
+    container_name: memorinhas_db
     restart: always
     env_file: .env
     environment:
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-memorinhas_db}
     ports:
-      - "${DB_PORT:-5432}:5432"
+      - "${DB_HOST_PORT:-5432}:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - memorinhas_pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_NAME}"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}",
+        ]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -24,24 +30,16 @@ services:
     restart: unless-stopped
     env_file: .env
     environment:
-      DB_HOST: vogue_backend_db
+      DB_HOST: memorinhas_db
+      DB_PORT: 5432
       NODE_ENV: production
     ports:
       - "${PORT:-3001}:${PORT:-3001}"
     depends_on:
-      vogue_backend_db:
+      memorinhas_db:
         condition: service_healthy
 
-  tunnel:
-    image: cloudflare/cloudflared:latest
-    container_name: memorinhas_tunnel
-    restart: unless-stopped
-    profiles: ["tunnel"]
-    command: tunnel run
-    environment:
-      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
-    depends_on:
-      - api
-
 volumes:
-  postgres_data:
+  memorinhas_pgdata:
+    external: true
+    name: backend_postgres_data

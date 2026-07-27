@@ -29,12 +29,12 @@ memorinhas-sys/
 ```bash
 cd backend
 cp .env.example .env
-docker compose up -d vogue_backend_db
+docker compose up -d memorinhas_db
 npm install
 npm run start:dev
 ```
 
-Ou API + banco no Docker: `docker compose up -d --build`. Tunnel Cloudflare: ver [backend/README.md](backend/README.md).
+Ou API + banco no Docker: `npm run deploy` (ou `docker compose up -d --build`). Tunnel Cloudflare: ver [backend/README.md](backend/README.md).
 
 - API: http://localhost:3001/api/v0/system-check
 - Swagger: http://localhost:3001/api/v0

@@ -24,6 +24,7 @@ App: http://localhost:3000
 npm run dev       # Vite em http://localhost:3000
 npm run build     # TypeScript + build de produção
 npm run preview   # Preview do build
+npm run deploy    # build + firebase deploy
 ```
 
 ## Stack
