@@ -77,7 +77,7 @@ export function ProductForm({ value, onChange, disabled }: ProductFormProps) {
           value={value.productTypeId}
           disabled={disabled}
           onChange={(e) => updateType(e.target.value)}
-          className="rounded-xl h-12"
+          className="rounded-xl h-12 bg-card"
         >
           <option value="">Selecione o tipo</option>
           {types.map((type) => (

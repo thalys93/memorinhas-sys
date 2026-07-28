@@ -9,6 +9,7 @@ import {
   Package,
   Shield,
   Store,
+  Tags,
   Upload,
   Users,
   X,
@@ -79,6 +80,7 @@ function AdminPrivateLayout() {
     { id: 'usuarios', label: 'Usuários', icon: <Users size={20} /> },
     { id: 'papeis', label: 'Papéis', icon: <Shield size={20} /> },
     { id: 'tipos-produto', label: 'Tipos de produto', icon: <Package size={20} /> },
+    { id: 'campos-produto', label: 'Campos de produto', icon: <Tags size={20} /> },
   ];
 
   const activeTab = location.pathname.replace('/admin', '').replace(/^\//, '') || '';

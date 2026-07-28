@@ -3,6 +3,7 @@ import { Type } from 'class-transformer';
 import {
     IsArray,
     IsBoolean,
+    IsEnum,
     IsNotEmpty,
     IsNumber,
     IsOptional,
@@ -11,17 +12,44 @@ import {
     Min,
     ValidateNested,
 } from 'class-validator';
+import { ProductAttributeFieldType } from 'src/enums/ProductAttributeFieldType';
+
+export type ProductAttributeValue = string | number | boolean | string[];
+
+export type ProductAttributeType =
+    | ProductAttributeFieldType
+    | 'legacy';
 
 export class ProductAttributeDto {
+    @ApiPropertyOptional({ example: 'uuid-do-campo' })
+    @IsOptional()
+    @IsUUID()
+    fieldId?: string | null;
+
+    @ApiPropertyOptional({
+        enum: [...Object.values(ProductAttributeFieldType), 'legacy'],
+        example: ProductAttributeFieldType.Text,
+    })
+    @IsOptional()
+    @IsEnum({ ...ProductAttributeFieldType, legacy: 'legacy' })
+    type?: ProductAttributeType;
+
     @ApiProperty({ example: 'Material' })
     @IsString()
     @IsNotEmpty()
     label: string;
 
-    @ApiProperty({ example: 'Acrílico' })
-    @IsString()
+    @ApiProperty({
+        oneOf: [
+            { type: 'string' },
+            { type: 'number' },
+            { type: 'boolean' },
+            { type: 'array', items: { type: 'string' } },
+        ],
+        example: 'Acrílico',
+    })
     @IsNotEmpty()
-    value: string;
+    value: ProductAttributeValue;
 }
 
 export class CreateProductDto {

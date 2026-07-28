@@ -8,8 +8,9 @@ import { useStoreBranding } from '@/hooks/use-store-branding'
 import { usePublicProduct } from '@/hooks/queries'
 import { productTypeLabel } from '@/lib/product-utils'
 import { useCartStore } from '@/store/use-cart-store'
+import { colorLabelFromHex } from '@/components/color-picker'
 import { cn } from '@/lib/utils'
-import type { Product } from '@/types/api'
+import type { Product, ProductAttribute } from '@/types/api'
 
 function buildCartItemPayload(product: Product) {
   return {
@@ -21,6 +22,46 @@ function buildCartItemPayload(product: Product) {
     customizableSlots: product.customizableSlots,
     imageUrl: product.product_imgs?.[0],
   }
+}
+
+function ProductAttributeValueDisplay({
+  attribute,
+}: {
+  attribute: ProductAttribute
+}) {
+  if (attribute.type === 'boolean') {
+    return <>{attribute.value ? 'Sim' : 'Não'}</>
+  }
+
+  if (attribute.type === 'number') {
+    return <>{attribute.value}</>
+  }
+
+  if (attribute.type === 'select' && Array.isArray(attribute.value)) {
+    return <>{attribute.value.join(', ')}</>
+  }
+
+  if (attribute.type === 'color_list' && Array.isArray(attribute.value)) {
+    return (
+      <span className="inline-flex flex-wrap items-center gap-x-4 gap-y-2">
+        {attribute.value.map((color, index) => (
+          <span
+            key={`${color}-${index}`}
+            className="inline-flex items-center gap-2"
+          >
+            <span
+              className="inline-block h-4 w-4 rounded-full border border-border/70"
+              style={{ backgroundColor: String(color) }}
+              aria-hidden
+            />
+            <span className="text-sm">{colorLabelFromHex(String(color))}</span>
+          </span>
+        ))}
+      </span>
+    )
+  }
+
+  return <>{String(attribute.value ?? '')}</>
 }
 
 export function ProductDetailPage() {
@@ -93,9 +134,13 @@ export function ProductDetailPage() {
   const images = product.product_imgs ?? []
   const selectedUrl = images[activeImage] ?? images[0]
   const showImage = !!selectedUrl && !imageBroken
-  const attributes = (product.attributes ?? []).filter(
-    (row) => row.label?.trim() && row.value?.trim(),
-  )
+  const attributes = (product.attributes ?? []).filter((row) => {
+    if (!row.label?.trim()) return false
+    if (row.type === 'boolean') return typeof row.value === 'boolean'
+    if (Array.isArray(row.value)) return row.value.length > 0
+    if (typeof row.value === 'number') return Number.isFinite(row.value)
+    return String(row.value ?? '').trim().length > 0
+  })
   const descriptionHtml = product.description
     ? DOMPurify.sanitize(product.description)
     : ''
@@ -128,7 +173,7 @@ export function ProductDetailPage() {
           <span className="text-foreground truncate">{product.name}</span>
         </nav>
 
-        <div className="bg-background rounded-lg p-5 md:p-8 space-y-10">
+        <div className="bg-background rounded-lg p-5 md:p-8">
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 items-start">
             <div className="w-full lg:w-[42%] max-w-[450px] shrink-0 space-y-3 mx-auto lg:mx-0">
               <div className="aspect-square rounded-lg overflow-hidden bg-muted flex items-center justify-center">
@@ -184,6 +229,37 @@ export function ProductDetailPage() {
                   {product.name}
                 </h1>
               </div>
+
+              {descriptionHtml ? (
+                <section className="space-y-2">
+                  <h2 className="text-card-title text-foreground">Descrição</h2>
+                  <div
+                    className="prose-product text-body text-muted-foreground"
+                    dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+                  />
+                </section>
+              ) : null}
+
+              {attributes.length > 0 ? (
+                <section className="space-y-2">
+                  <h2 className="text-card-title text-foreground">Detalhes</h2>
+                  <dl className="divide-y divide-border/60 border-y border-border/60">
+                    {attributes.map((row, index) => (
+                      <div
+                        key={`${row.fieldId ?? row.label}-${index}`}
+                        className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-8 py-3"
+                      >
+                        <dt className="sm:w-40 shrink-0 text-sm font-medium text-foreground">
+                          {row.label}
+                        </dt>
+                        <dd className="text-sm text-muted-foreground">
+                          <ProductAttributeValueDisplay attribute={row} />
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </section>
+              ) : null}
 
               <div className="rounded-lg bg-muted/70 px-4 py-3">
                 <p className="text-2xl md:text-3xl font-semibold text-primary tracking-tight">
@@ -243,35 +319,6 @@ export function ProductDetailPage() {
               </div>
             </div>
           </div>
-
-          {descriptionHtml ? (
-            <section className="space-y-3 max-w-3xl border-t border-border/60 pt-8">
-              <h2 className="text-card-title text-foreground">Descrição</h2>
-              <div
-                className="prose-product text-body text-muted-foreground"
-                dangerouslySetInnerHTML={{ __html: descriptionHtml }}
-              />
-            </section>
-          ) : null}
-
-          {attributes.length > 0 ? (
-            <section className="space-y-3 max-w-3xl border-t border-border/60 pt-8">
-              <h2 className="text-card-title text-foreground">Detalhes</h2>
-              <dl className="divide-y divide-border/60 border-y border-border/60">
-                {attributes.map((row) => (
-                  <div
-                    key={`${row.label}-${row.value}`}
-                    className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-8 py-3"
-                  >
-                    <dt className="sm:w-40 shrink-0 text-sm font-medium text-foreground">
-                      {row.label}
-                    </dt>
-                    <dd className="text-sm text-muted-foreground">{row.value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
-          ) : null}
         </div>
       </div>
     </div>

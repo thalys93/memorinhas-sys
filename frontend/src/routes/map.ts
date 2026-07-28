@@ -22,6 +22,7 @@ import { StoresPage } from '@/subdomains/admin/pages/Stores/StoresPage';
 import { UsersPage } from '@/subdomains/admin/pages/Users/UsersPage';
 import { RolesPage } from '@/subdomains/admin/pages/Roles/RolesPage';
 import { ProductTypesPage } from '@/subdomains/admin/pages/ProductTypes/ProductTypesPage';
+import { ProductAttributeFieldsPage } from '@/subdomains/admin/pages/ProductAttributeFields/ProductAttributeFieldsPage';
 import { NotFoundPage } from '@/pages/not-found';
 import type { RoutesGroup } from '@/types/routes.types';
 
@@ -65,6 +66,7 @@ export const AdminRoutes: RoutesGroup = {
     { path: 'usuarios', element: UsersPage },
     { path: 'papeis', element: RolesPage },
     { path: 'tipos-produto', element: ProductTypesPage },
+    { path: 'campos-produto', element: ProductAttributeFieldsPage },
   ],
   privateMiddleware: AdminPrivateLayout,
 };
