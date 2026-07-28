@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { storeService } from '@/services/store.service';
 import { productService } from '@/services/product.service';
 import { productTypeService } from '@/services/product-type.service';
+import { productAttributeFieldService } from '@/services/product-attribute-field.service';
 import { userService } from '@/services/user.service';
 import { roleService } from '@/services/role.service';
 import { authService } from '@/services/auth.service';
@@ -10,6 +11,7 @@ import { env } from '@/constants/env';
 import type {
   AssignKeepersPayload,
   CreateOrderPayload,
+  CreateProductAttributeFieldPayload,
   CreateProductPayload,
   CreateProductTypePayload,
   CreateRolePayload,
@@ -17,6 +19,7 @@ import type {
   NotifyOrderPayload,
   PublicProductFilters,
   UpdateOrderStatusPayload,
+  UpdateProductAttributeFieldPayload,
   UpdateProductPayload,
   UpdateProductTypePayload,
   UpdateRolePayload,
@@ -34,6 +37,9 @@ export const queryKeys = {
   products: ['products'] as const,
   productTypes: (page?: number) => ['product-types', page] as const,
   productTypesActive: ['product-types', 'active'] as const,
+  productAttributeFields: (page?: number) =>
+    ['product-attribute-fields', page] as const,
+  productAttributeFieldsActive: ['product-attribute-fields', 'active'] as const,
   users: (page?: number, limit?: number) => ['users', page, limit] as const,
   roles: (page?: number) => ['roles', page] as const,
   me: ['auth', 'me'] as const,
@@ -271,6 +277,57 @@ export function useDeleteProductType() {
     mutationFn: (id: string) => productTypeService.remove(id),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['product-types'] });
+    },
+  });
+}
+
+export function useProductAttributeFields(page = 1) {
+  return useQuery({
+    queryKey: queryKeys.productAttributeFields(page),
+    queryFn: () => productAttributeFieldService.list(page),
+  });
+}
+
+export function useActiveProductAttributeFields() {
+  return useQuery({
+    queryKey: queryKeys.productAttributeFieldsActive,
+    queryFn: () => productAttributeFieldService.listActive(),
+  });
+}
+
+export function useCreateProductAttributeField() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: CreateProductAttributeFieldPayload) =>
+      productAttributeFieldService.create(payload),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['product-attribute-fields'] });
+    },
+  });
+}
+
+export function useUpdateProductAttributeField() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: string;
+      payload: UpdateProductAttributeFieldPayload;
+    }) => productAttributeFieldService.update(id, payload),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['product-attribute-fields'] });
+    },
+  });
+}
+
+export function useDeleteProductAttributeField() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => productAttributeFieldService.remove(id),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['product-attribute-fields'] });
     },
   });
 }

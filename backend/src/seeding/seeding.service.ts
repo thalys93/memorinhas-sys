@@ -3,6 +3,8 @@ import { Roles } from 'src/enums/Roles';
 import { Role } from 'src/roles/entities/role.entity';
 import { User } from 'src/user/entities/user.entity';
 import { ProductType } from 'src/product-types/entities/product-type.entity';
+import { ProductAttributeField } from 'src/product-attribute-fields/entities/product-attribute-field.entity';
+import { ProductAttributeFieldType } from 'src/enums/ProductAttributeFieldType';
 import { Store } from 'src/store/entities/store.entity';
 import { appConfig } from 'src/config/app.config';
 import { DataSource, In } from 'typeorm';
@@ -14,6 +16,45 @@ const PRODUCT_TYPES_SEED = [
     { name: 'Kit', isCustomizable: true },
     { name: 'Ímã', isCustomizable: false },
     { name: 'Acessório', isCustomizable: false },
+];
+
+const PRODUCT_ATTRIBUTE_FIELDS_SEED: Array<{
+    name: string;
+    type: ProductAttributeFieldType;
+    options?: string[];
+    sortOrder: number;
+}> = [
+    {
+        name: 'Material',
+        type: ProductAttributeFieldType.Text,
+        sortOrder: 1,
+    },
+    {
+        name: 'Cores',
+        type: ProductAttributeFieldType.ColorList,
+        sortOrder: 2,
+    },
+    {
+        name: 'Resistente à água',
+        type: ProductAttributeFieldType.Boolean,
+        sortOrder: 3,
+    },
+    {
+        name: 'Medida (cm)',
+        type: ProductAttributeFieldType.Number,
+        sortOrder: 4,
+    },
+    {
+        name: 'Observação',
+        type: ProductAttributeFieldType.Text,
+        sortOrder: 5,
+    },
+    {
+        name: 'Tamanho',
+        type: ProductAttributeFieldType.Select,
+        options: ['P', 'M', 'G', 'GG'],
+        sortOrder: 6,
+    },
 ];
 
 @Injectable()
@@ -34,6 +75,7 @@ export class SeedingService implements OnModuleInit {
         await this.createSystemAdmin();
         await this.createCanonicalStoreIfMissing();
         await this.createProductTypes();
+        await this.createProductAttributeFields();
     }
 
     async createRoles() {
@@ -202,6 +244,52 @@ export class SeedingService implements OnModuleInit {
             await queryRunner.rollbackTransaction();
             this.logger.error(
                 'Failed to seed product types',
+                (error as Error).stack,
+            );
+            throw error;
+        } finally {
+            await queryRunner.release();
+        }
+    }
+
+    async createProductAttributeFields() {
+        const queryRunner = this.dataSource.createQueryRunner();
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
+
+        try {
+            const repository =
+                queryRunner.manager.getRepository(ProductAttributeField);
+
+            for (const seed of PRODUCT_ATTRIBUTE_FIELDS_SEED) {
+                const existing = await repository.findOneBy({
+                    name: seed.name,
+                });
+
+                if (!existing) {
+                    await repository.insert({
+                        name: seed.name,
+                        type: seed.type,
+                        options: seed.options ?? [],
+                        active: true,
+                        sortOrder: seed.sortOrder,
+                    });
+                    this.logger.verbose(
+                        `Inserted product attribute field: ${seed.name}`,
+                    );
+                } else {
+                    this.logger.warn(
+                        `Product attribute field already exists: ${seed.name}`,
+                    );
+                }
+            }
+
+            await queryRunner.commitTransaction();
+            this.logger.log('Product attribute fields seeded successfully!');
+        } catch (error) {
+            await queryRunner.rollbackTransaction();
+            this.logger.error(
+                'Failed to seed product attribute fields',
                 (error as Error).stack,
             );
             throw error;

@@ -155,26 +155,22 @@ export const ProductFormPage = () => {
   }
 
   return (
-    <div className="w-full space-y-6 md:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-        <div className="space-y-2">
-          <Link
-            to="/lojista/produtos"
-            className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
-          >
-            <ArrowLeft size={14} /> Produtos
-          </Link>
-          <h1 className="text-section-title text-foreground">
-            {isNew ? 'Novo produto' : 'Editar produto'}
-          </h1>
-          <p className="text-muted-foreground text-sm">
-            {isNew ? 'Cadastre um kit, ímã ou acessório.' : 'Atualize os dados do produto.'}
-          </p>
-        </div>
-        <Button size="sm" className="rounded-sm" disabled={saving} onClick={handleSave}>
-          <Save size={16} className="mr-2" />
-          {saving ? 'Salvando...' : 'Salvar'}
-        </Button>
+    <div className="w-full space-y-6 md:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
+      <div className="space-y-2">
+        <Link
+          to="/lojista/produtos"
+          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft size={14} /> Produtos
+        </Link>
+        <h1 className="text-section-title text-foreground">
+          {isNew ? 'Novo produto' : 'Editar produto'}
+        </h1>
+        <p className="text-muted-foreground text-sm">
+          {isNew
+            ? 'Cadastre um kit, ímã ou acessório.'
+            : 'Atualize os dados do produto.'}
+        </p>
       </div>
 
       <Card className="rounded-sm p-2 w-full">
@@ -185,6 +181,27 @@ export const ProductFormPage = () => {
           <ProductForm value={form} onChange={setForm} disabled={saving} />
         </CardContent>
       </Card>
+
+      <div className="fixed bottom-0 inset-x-0 z-40 border-t border-border/80 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
+        <div className="mx-auto max-w-5xl px-4 py-3 flex items-center justify-end gap-3">
+          <Button
+            variant="outline"
+            className="rounded-sm"
+            disabled={saving}
+            onClick={() => navigate('/lojista/produtos')}
+          >
+            Cancelar
+          </Button>
+          <Button
+            className="rounded-sm min-w-28"
+            disabled={saving}
+            onClick={handleSave}
+          >
+            <Save size={16} className="mr-2" />
+            {saving ? 'Salvando...' : 'Salvar'}
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }

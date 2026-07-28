@@ -139,6 +139,11 @@
   html {
     font-size: 100%;
     scroll-behavior: smooth;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
 
   body {
@@ -151,6 +156,17 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+  }
+
+  select {
+    color: var(--foreground);
+    background-color: var(--card);
+  }
+
+  select option,
+  select optgroup {
+    background-color: var(--card);
+    color: var(--foreground);
   }
 }
 

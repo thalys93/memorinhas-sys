@@ -14,6 +14,7 @@ import { FeatureFlagsModule } from './feature-flags/feature-flags.module';
 import { StoreModule } from './store/store.module';
 import { ProductModule } from './product/product.module';
 import { ProductTypesModule } from './product-types/product-types.module';
+import { ProductAttributeFieldsModule } from './product-attribute-fields/product-attribute-fields.module';
 import { OrderModule } from './order/order.module';
 
 @Module({
@@ -33,6 +34,7 @@ import { OrderModule } from './order/order.module';
         UserModule,
         StoreModule,
         ProductTypesModule,
+        ProductAttributeFieldsModule,
         ProductModule,
         OrderModule,
         SeedingModule,

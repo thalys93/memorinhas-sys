@@ -170,6 +170,13 @@ const PAGE_META: { match: string | RegExp; meta: PageMeta }[] = [
     },
   },
   {
+    match: '/admin/campos-produto',
+    meta: {
+      segments: ['Admin', 'Campos de produto'],
+      robots: PRIVATE_ROBOTS,
+    },
+  },
+  {
     match: '/admin',
     meta: {
       segments: ['Admin'],

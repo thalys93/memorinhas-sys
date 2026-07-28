@@ -39,9 +39,29 @@ export interface StoreSettings {
   profile?: StoreProfileSettings;
 }
 
+export type ProductAttributeFieldType =
+  | 'text'
+  | 'number'
+  | 'boolean'
+  | 'color_list'
+  | 'select';
+
 export interface ProductAttribute {
+  fieldId?: string | null;
+  type?: ProductAttributeFieldType | 'legacy';
   label: string;
-  value: string;
+  value: string | number | boolean | string[];
+}
+
+export interface ProductAttributeField {
+  id: string;
+  name: string;
+  type: ProductAttributeFieldType;
+  options: string[];
+  active: boolean;
+  sortOrder: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Product {
@@ -150,6 +170,22 @@ export interface UpdateProductTypePayload {
   name?: string;
   isCustomizable?: boolean;
   active?: boolean;
+}
+
+export interface CreateProductAttributeFieldPayload {
+  name: string;
+  type: ProductAttributeFieldType;
+  options?: string[];
+  active?: boolean;
+  sortOrder?: number;
+}
+
+export interface UpdateProductAttributeFieldPayload {
+  name?: string;
+  type?: ProductAttributeFieldType;
+  options?: string[];
+  active?: boolean;
+  sortOrder?: number;
 }
 
 export interface CreateUserPayload {

@@ -39,7 +39,12 @@ export class Product {
     description: string | null;
 
     @Column({ type: 'json', default: [] })
-    attributes: { label: string; value: string }[];
+    attributes: Array<{
+        fieldId?: string | null;
+        type?: string;
+        label: string;
+        value: string | number | boolean | string[];
+    }>;
 
     @ManyToOne(() => Store, (store) => store.products, {
         onDelete: 'CASCADE',
